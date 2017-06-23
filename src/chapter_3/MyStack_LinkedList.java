@@ -1,37 +1,46 @@
 package chapter_3;
+import java.util.EmptyStackException;
 import java.util.LinkedList;
-import java.lang.*;
-
+import java.util.Stack;
 /**
  * this program demonstrate how to implement Stack with LinkedList | Node
  * @version 1.0 2017.06.22
  * @author Yao Qian
  *
  */
+
 public class MyStack_LinkedList<AnyType> {
-	private int count;
-	private LinkedList<AnyType> MyStack;   
-	private Node<AnyType> topNode;      // how to define node??
+	private int count = 0;
+	private LinkedList<AnyType> MyStack;  
+	private Stack<AnyType> a;
 	
 	public MyStack_LinkedList(){
 		MyStack = new LinkedList<>();     //use java.util.LinkedList
-		topNode = ???;
 		count = 0;
 	}
-	public void clear(){
-		topNode = null;  // ??
+	
+	public AnyType top(){
+		if(count == 0){
+			throw new EmptyStackException();
+		}
+		else{
+			return MyStack.getFirst();
+		}
+	}
+	
+	public  void clear() {
 		MyStack.clear();
 		count =0;
 	}
 	public int size(){
 		return count;
 	}
-	public synchronized boolean isEmpty() throws InterruptedException{
+	public  boolean isEmpty() {
 		return(size() == 0);
 	}
 	//public boolean isFull(){}
 	
-	public synchronized void push(AnyType newVal) throws InterruptedException{
+	public void push(AnyType newVal) {
 		/**
 		 * this batch uses java.util.linkedList
 		 */
@@ -41,30 +50,13 @@ public class MyStack_LinkedList<AnyType> {
 		/**
 		 * this batch uses the instance and the method of this class
 		 */
-		Node<AnyType> newNode = new Node(newVal);
-		//topNode.xxx
-		//??????????  and then?? 
-		count ++;
 		
 	}
-	public synchronized AnyType pop() throws InterruptedException{
+	public AnyType pop(){
 		/**
 		 * this batch uses java.util.linkedList
 		 */
 		count --;
-		return MyStack.removeFirst();
-		/**
-		 * this batch uses the instance and the method of this class
-		 */
-		if(isEmpty()){
-			throw new NullPointerException();
-		}
-		topNode = getFirstNode;   // sad..
-		count --;
-		return getFirstNode().data;
-	}
-	
-	private Node getFirstNode(){
-		return topNode;
+		return MyStack.removeFirst(); // LinkList has exception
 	}
 }
