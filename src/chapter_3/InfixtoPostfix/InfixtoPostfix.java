@@ -1,6 +1,8 @@
 package chapter_3.InfixtoPostfix;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.*;
+
 
 import chapter_3.MyStack_LinkedList;
 
@@ -31,6 +33,21 @@ public class InfixtoPostfix {
 		return Postfix;
 	}
 	
+	public void printPostfix(){
+		Iterator<operator> iter= Postfix.iterator();
+		while(iter.hasNext()){
+			operator p = iter.next();
+			if(p.getFlagOperator()){
+				System.out.println(p.getOperator());
+			}
+			else
+				System.out.println(p.getStringNumber());
+		}
+		
+		
+			
+		
+	}
 	
 	
 	
@@ -43,22 +60,24 @@ public class InfixtoPostfix {
 			opt.toOperator(s);
 			if(opt.getFlagOperator()){
 				if(opt.getPriority() == 0){
-					flagBrackets = (flagBrackets + 1)%3;
+					flagBrackets = flagBrackets + 1;
 				}
-				handleOperator(container, Postfix, opt, flagBrackets);
+				handleOperator(container, Postfix, opt, flagBrackets);  //though flagBrackets is Integer but it is not changed ???
 			}
 			else{ 
 				handleOperand(Postfix, opt);
 			}	
-		}
-		
+		}		
 		/** handle the problem: the number of brackets is not matched.  
 		 * how about the problem: the number of operator and operand is not matched??   at calculator
 		 */
-		if(flagBrackets!=0 || !container.isEmpty()){   
+		if(flagBrackets!=0 && !container.isEmpty()) 
 			System.out.println("Bad in put equation!!!");
+		while(!container.isEmpty()){
+			Postfix.add(container.pop());
 		}
 	}
+	
 	public void handleOperand(ArrayList<operator> Postfix, operator opt){
 		Postfix.add(opt);
 	}
@@ -84,6 +103,7 @@ public class InfixtoPostfix {
 				else if(flag == 1){    // has one brackets 
 					if(opt.getPriority() == 0){   //opt is brackets
 						container.push(opt);
+						break;
 					}
 					else{    //opt is not brackets 
 						int result = opt.compareTo(container.top());
@@ -102,8 +122,8 @@ public class InfixtoPostfix {
 						Postfix.add(container.top());
 						container.pop();
 					}
-					container.pop();  //pop the second brackets
-					flag = 0;
+					container.pop();  //pop the first brackets
+					flag = flag - 2;   //push the first brackets
 				}
 			}
 		}
