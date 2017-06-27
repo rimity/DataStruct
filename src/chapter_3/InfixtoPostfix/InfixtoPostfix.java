@@ -42,11 +42,7 @@ public class InfixtoPostfix {
 			}
 			else
 				System.out.println(p.getStringNumber());
-		}
-		
-		
-			
-		
+		}	
 	}
 	
 	
